@@ -12,7 +12,14 @@ const userRoutes = require("./routes/user");
 
 const app = express();
 
-app.use(cors());
+app.use(
+	cors({
+		origin: "https://webstory-fe.vercel.app", // Your frontend origin
+		methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+		credentials: true, // Allow cookies/auth headers to be sent with requests
+	})
+);
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -23,25 +30,25 @@ app.use("/api/user", userRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/slide", slideRoutes);
 app.get("/", async (req, res) => {
-  res.status(200).json("Server is up and running");
+	res.status(200).json("Server is up and running");
 });
 
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ error: "Internal Server Error" });
+	console.error(err.stack);
+	res.status(500).json({ error: "Internal Server Error" });
 });
 
 app.listen(process.env.PORT, () => {
-  console.log(`Server is running on port ${process.env.PORT}`);
-  mongoose
-    .connect(process.env.MONGODB_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
-    .then(() => {
-      console.log("Connected to the database");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+	console.log(`Server is running on port ${process.env.PORT}`);
+	mongoose
+		.connect(process.env.MONGODB_URL, {
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+		})
+		.then(() => {
+			console.log("Connected to the database");
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 });
