@@ -12,14 +12,7 @@ const userRoutes = require("./routes/user");
 
 const app = express();
 
-app.use(
-	cors({
-		origin: "https://webstory-fe.vercel.app", // Your frontend origin
-		methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-		credentials: true, // Allow cookies/auth headers to be sent with requests
-	})
-);
-
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
